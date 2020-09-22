@@ -7,6 +7,42 @@
   <link rel="stylesheet" href="index.css" />
 </head>
 <body>
+    <div id="book-header">
+       <h1>Photo Book</h1>
+      </div>
 
+      <div class="container">
+        <form class="add-photo-form">
+          <h3>Add a Photo!</h3>
+  
+          <input
+            type="text"
+            name="name"
+            value=""
+            placeholder="Enter a toy's name..."
+            class="input-text"
+          />
+          <br />
+          <input
+            type="text"
+            name="image"
+            value=""
+            placeholder="Enter a toy's image URL..."
+            class="input-text"
+          />
+          <br />
+          <input
+            type="submit"
+            name="submit"
+            value="Create New Toy"
+            class="submit"
+          />
+        </form>
+      </div>
+      <p style="text-align:center">
+        <button id="new-photo-btn">Add Photo</button>
+      </p>
+  
+      <div id="photo-collection"></div>
 </body>
 </html>
