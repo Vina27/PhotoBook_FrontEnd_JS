@@ -47,6 +47,11 @@ let displayPhotos = (photo) => {
     let pDesc = document.createElement("p")
         // console.log(pDesc)
         pDesc.innerText = photo.description 
+
+    let likeNum = document.createElement("p")
+        likeNum.innerText = `${photo.likes} Likes`
+        // likeNum.innerText = photo.likes
+        console.log(likeNum)
         
     let deletePhotoBtn = document.createElement("button")
         deletePhotoBtn.innerText = "delete"
@@ -54,15 +59,50 @@ let displayPhotos = (photo) => {
     let editDescBtn =  document.createElement("button")
         editDescBtn.innerText = "Edit description"
 
+    let likeBtn = document.createElement("button")
+        likeBtn.innerText =  "Like" 
 
-    photoDiv.append(imgTag, pDesc, editDescBtn,  deletePhotoBtn)
+
+
+    photoDiv.append(imgTag, pDesc, likeNum, likeBtn, editDescBtn,  deletePhotoBtn)
     photoCollectionDiv.append(photoDiv)
     deletePhoto(deletePhotoBtn, photo, photoDiv)
     //invoking function 
     updatePhotoDesc(editDescBtn, pDesc, photo)
+    likePhoto(likeBtn, photoDiv, photo)
 
 } //end of displayPhotoFunc
 
+let likePhoto = (likeBtn, photoDiv, photo) => {
+    likeBtn.addEventListener("click", (evt) => {
+        let theNewLikes = photo.likes + 1
+        // console.log("The New Likes Becomes", theNewLikes)
+        //update +1 photo.likes before fetch request
+        //write fetch request with url that includes photo id
+        //use PATCH method
+        //in body only add likes attribute 
+        //then statements 
+
+        fetch(`http:/localhost:3000/photos/${photo.id}`, {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json"
+            },
+            body: JSON.stringify({
+                likes: theNewLikes
+              })
+            })
+            .then(res => res.json())
+            //update dom
+            .then((updatedPhoto) => {
+              //razzmatzz element updating DOM
+              likeNum.innerText = `${updatedPhoto.likes} Likes`
+              //alters object in memeory will not update w/o code below 
+              photo.likes = updatedPhoto.likes
+            })
+    })
+}
 // Function to delete photo
 let deletePhoto = (deletePhotoBtn, photo, photoDiv) => {
     // console.log(deletePhotoBtn)
@@ -157,3 +197,11 @@ let updatePhotoDesc = (editDescBtn, pDesc, photo) => {
     }) //end of eventlistener 
 
 }
+
+
+//creating like button 
+// add like attribute to photo model rails backend
+// by default set it to 0 
+// frontend create like button for each photo
+// addeventlistener to like button 
+// make a patch request for specific photo
