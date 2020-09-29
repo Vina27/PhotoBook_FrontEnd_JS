@@ -62,13 +62,19 @@ body {
     width: stretch;
     height: auto;
     display: none;
-    background: #4b5ae0;
+    background: #2394C2;
     opacity: .8;
   }
   
   .add-photo-form {
-    position: relative; 
-    width: 80%
+    display: flex;
+    justify-content: center;
+    opacity: .8;
+    height: 7rem;
+    padding: 1rem;
+    margin: auto; 
+    width: 60%;
+    /*padding: 35px; */
   }
   
   .submit {

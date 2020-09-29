@@ -51,13 +51,19 @@ let displayPhotos = (photo) => {
     let deletePhotoBtn = document.createElement("button")
         deletePhotoBtn.innerText = "delete"
     
-    
-    photoDiv.append(imgTag, pDesc, deletePhotoBtn)
+    let editDescBtn =  document.createElement("button")
+        editDescBtn.innerText = "Edit description"
+
+
+    photoDiv.append(imgTag, pDesc, editDescBtn,  deletePhotoBtn)
     photoCollectionDiv.append(photoDiv)
     deletePhoto(deletePhotoBtn, photo, photoDiv)
-    
+    //invoking function 
+    updatePhotoDesc(editDescBtn, pDesc, photo)
+
 } //end of displayPhotoFunc
 
+// Function to delete photo
 let deletePhoto = (deletePhotoBtn, photo, photoDiv) => {
     // console.log(deletePhotoBtn)
     deletePhotoBtn.addEventListener("click", (evt) => {
@@ -74,7 +80,7 @@ let deletePhoto = (deletePhotoBtn, photo, photoDiv) => {
 
     }) //end of eventListener
 }
-
+// Function to create photo
 let photoFormFunc = (users) => {
 
 
@@ -104,5 +110,50 @@ photoForm.addEventListener("submit", (evt) => {
     })
     
   })
+
+}
+//end of photo form 
+
+let updatePhotoDesc = (editDescBtn, pDesc, photo) => {
+    // console.log(editDescBtn)
+
+    editDescBtn.addEventListener("click", (evt) => {
+        // console.log("hello")
+        //when btn is clicked a form shouold appear 
+    let editForm = document.createElement("form")
+        // console.log(editForm)
+        editForm.innerHTML = `<textarea rows="4" cols="50" type="text" name="description"
+        placeholder= "edit this description...."></textarea><br>
+        <input type="submit" value="Submit">`
+        // console.log(editForm)
+        pDesc.append(editForm)
+        
+        editForm.addEventListener("submit", (evt) => {
+            evt.preventDefault()
+    
+        fetch(`http://localhost:3000/photos/${photo.id}`, {
+            method: "PATCH", 
+            headers: {
+                "content-type": "application/json", 
+                Accept: "application/json"
+
+            }, 
+            body: JSON.stringify({
+                description: evt.target.description.value, 
+               })
+        })// end of fetch 
+        .then(res => res.json())
+        .then(editPhoto => {
+            console.log(editPhoto)
+            //allows edit desc to show up DOM manipulation 
+            pDesc.innerText = editPhoto.description 
+
+
+        })
+
+        })// end of addEventListener editForm 
+
+
+    }) //end of eventlistener 
 
 }
