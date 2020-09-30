@@ -6,7 +6,7 @@ let addPhotoButton = document.querySelector("#new-photo-btn")
 let formContainer = document.querySelector(".container")
     // console.log(formContainer)
 let photoForm = document.querySelector(".add-photo-form")
-    console.log(photoForm)
+    //console.log(photoForm)
     let addPhoto = false 
 
 addPhotoButton.addEventListener("click", (evt) => {
@@ -26,7 +26,7 @@ addPhotoButton.addEventListener("click", (evt) => {
 fetch("http://localhost:3000/users")
 .then(resp => resp.json()) 
 .then(users => {
-    console.log(users[0].photos)
+    //console.log(users[0].photos)
     //saving photo array to variable 
     let photoArray = users[0].photos
     photoArray.forEach(photo => displayPhotos(photo))
@@ -35,7 +35,7 @@ fetch("http://localhost:3000/users")
 
 //this function will display users photos 
 let displayPhotos = (photo) => {
-    console.log(photo.book_id)
+    //console.log(photo.book_id)
     let photoDiv = document.createElement("div")
     // console.log(photo)
     photoDiv.className = "card"
@@ -62,26 +62,32 @@ let displayPhotos = (photo) => {
     let likeBtn = document.createElement("button")
         likeBtn.innerText =  "Like" 
 
-
-
     photoDiv.append(imgTag, pDesc, likeNum, likeBtn, editDescBtn,  deletePhotoBtn)
     photoCollectionDiv.append(photoDiv)
     deletePhoto(deletePhotoBtn, photo, photoDiv)
     //invoking function 
     updatePhotoDesc(editDescBtn, pDesc, photo)
-    likePhoto(likeBtn, photoDiv, photo)
+    likePhoto(likeBtn, likeNum, photo)
 
 } //end of displayPhotoFunc
 
-let likePhoto = (likeBtn, photoDiv, photo) => {
+let likePhoto = (likeBtn, likeNum, photo) => {
     likeBtn.addEventListener("click", (evt) => {
+       // console.log(photo.likes)
+        if (photo.likes === null || photo.likes === undefined){
+            photo.likes =  0 
+            console.log(photo.likes)
+        }else {
+            console.log("this is a real number")
+        }
+
         let theNewLikes = photo.likes + 1
         // console.log("The New Likes Becomes", theNewLikes)
-        //update +1 photo.likes before fetch request
-        //write fetch request with url that includes photo id
-        //use PATCH method
-        //in body only add likes attribute 
-        //then statements 
+        // update +1 photo.likes before fetch request
+        // write fetch request with url that includes photo id
+        // use PATCH method
+        // in body only add likes attribute 
+        // then statements 
 
         fetch(`http:/localhost:3000/photos/${photo.id}`, {
             method: "PATCH",
@@ -184,7 +190,7 @@ let updatePhotoDesc = (editDescBtn, pDesc, photo) => {
         })// end of fetch 
         .then(res => res.json())
         .then(editPhoto => {
-            console.log(editPhoto)
+            //console.log(editPhoto)
             //allows edit desc to show up DOM manipulation 
             pDesc.innerText = editPhoto.description 
 
@@ -197,7 +203,6 @@ let updatePhotoDesc = (editDescBtn, pDesc, photo) => {
     }) //end of eventlistener 
 
 }
-
 
 //creating like button 
 // add like attribute to photo model rails backend
