@@ -75,7 +75,7 @@ let likePhoto = (likeBtn, likeNum, photo) => {
     likeBtn.addEventListener("click", (evt) => {
        // console.log(photo.likes)
         if (photo.likes === null || photo.likes === undefined){
-            photo.likes =  0 
+            photo.likes = 0 
             console.log(photo.likes)
         }else {
             console.log("this is a real number")
